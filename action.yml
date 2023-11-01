@@ -1,0 +1,35 @@
+---
+name: "Publish to preview server"
+description: "Update kubernetes deployment image"
+inputs:
+  kairos_url:
+    description: "Publish endpoint"
+    required: true
+  kairos_token:
+    description: "Authentication token to be able to upload artifacts"
+    required: true
+  zipfile:
+    description: "Zip file that contains all the assets to be published"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload compiled output
+      run: |
+        full_hash=$GITHUB_SHA
+        file="${full_hash:0:7}.zip"
+        mv ${{ inputs.zipfile }} $file
+        url=$(curl --silent -X POST -H "X-Api-Token:${{ inputs.kairos_token }}" -F "file=@$file" ${{ secrets.kairos_url }})
+        echo "preview_url=$url" >> $GITHUB_ENV
+
+    - name: Notify preview URL into PR
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'Preview site: ${{ env.preview_url }}'
+          })
