@@ -16,6 +16,7 @@ runs:
   using: "composite"
   steps:
     - name: Upload compiled output
+      shell: bash
       run: |
         full_hash=$GITHUB_SHA
         file="${full_hash:0:7}.zip"
