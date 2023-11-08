@@ -21,7 +21,9 @@ runs:
         full_hash=$GITHUB_SHA
         file="${full_hash:0:7}.zip"
         mv ${{ inputs.zipfile }} $file
-        url=$(curl --silent -X POST -H "X-Api-Token:${{ inputs.kairos_token }}" -F "file=@$file" ${{ inputs.kairos_url }})
+        file #file
+        #url=$(curl --silent -X POST -H "X-Api-Token:${{ inputs.kairos_token }}" -F "file=@$file" ${{ inputs.kairos_url }})
+        url=$(curl -X POST -H "X-Api-Token:${{ inputs.kairos_token }}" -F "file=@$file" ${{ inputs.kairos_url }})
         echo "preview_url=$url" >> $GITHUB_ENV
 
     - name: Notify preview URL into PR
