@@ -5,11 +5,11 @@ Publish the received content to [kairos](https://github.com/resuelve/kairos) ser
 
 ## Inputs
 
-| Input        | Required | Description                                                             |
-|--------------|----------|-------------------------------------------------------------------------|
-| kairos_url   | yes      | Kairos server publish endpoint                                          |
-| kairos_token | yes      | Authentication token to be able to upload artifacts                     |
-| zipile       | yes      | zipfile that will be published to Kairos server                         |
+| Input        | Required | Description                                                      |
+|--------------|----------|------------------------------------------------------------------|
+| kairos_url   | yes      | Kairos server publish endpoint, https://kairos.domain.com/deploy |
+| kairos_token | yes      | Authentication token to be able to upload artifacts              |
+| zipile       | yes      | zipfile that will be published to Kairos server                  |
 
 ## Usage
 
