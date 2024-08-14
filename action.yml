@@ -15,7 +15,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
     - name: Upload compiled output
       shell: bash
       run: |
@@ -28,10 +27,16 @@ runs:
         echo "RESPONSE\n$response"
         cat headers.txt | grep " 200" || exit 1
         echo "preview_url=$response" >> $GITHUB_ENV
+
+    - uses: actions/checkout@v4
+
+    - name: Build body comment
+      shell: bash
+      run: |
         ls -la
         for file in $(git show --pretty="" --name-only HEAD | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
-          echo "$preview_url$inner"
+          echo "- $preview_url$inner"
         done >links.txt
         echo "preview_body=$(cat links.txt)" >> $GITHUB_ENV
 
@@ -43,5 +48,5 @@ runs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Preview site\n ${{ env.preview_body }}'
+            body: 'Previews:\n ${{ env.preview_body }}'
           })
