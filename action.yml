@@ -27,6 +27,7 @@ runs:
         echo "RESPONSE\n$response"
         cat headers.txt | grep " 200" || exit 1
         echo "preview_url=$response" >> $GITHUB_ENV
+        ls -la
         for file in $(git show --pretty="" --name-only HEAD | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo "$preview_url$inner"
