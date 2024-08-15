@@ -34,6 +34,7 @@ runs:
       shell: bash
       run: |
         ls -la
+        whoami
         for file in $(git show --pretty="" --name-only HEAD | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo "- $preview_url$inner"
