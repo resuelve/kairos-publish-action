@@ -36,6 +36,8 @@ runs:
         ls -la
         whoami
         git config --global --add safe.directory /__w/playbook/playbook
+        echo $GITHUB_REF
+        echo $GITHUB_HEAD_REF
         for file in $(git show --pretty="" --name-only HEAD | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo $inner
