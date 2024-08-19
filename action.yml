@@ -39,8 +39,9 @@ runs:
         echo $GITHUB_REF
         echo $GITHUB_HEAD_REF
         echo $GITHUB_BASE_REF
-        git diff --name-only $GITHUB_BASE_REF
-        for file in $(git diff --name-only master | grep ".md" | sed s/.md$//); do
+        git fetch origin
+        git diff --name-only origin/$GITHUB_BASE_REF
+        for file in $(git diff --name-only $GITHUB_BASE_REF | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo $inner
           echo "- $preview_url$inner"
