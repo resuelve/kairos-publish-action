@@ -33,20 +33,15 @@ runs:
     - name: Build body comment
       shell: bash
       run: |
-        ls -la
-        whoami
         git config --global --add safe.directory /__w/playbook/playbook
-        echo $GITHUB_REF
-        echo $GITHUB_HEAD_REF
-        echo $GITHUB_BASE_REF
+        # we need to fetch references to be able to get diff
         git fetch origin
-        git diff --name-only origin/$GITHUB_BASE_REF
+        echo "preview_body<<EOF" >> $GITHUB_ENV
         for file in $(git diff --name-only origin/$GITHUB_BASE_REF | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
-          echo "- $preview_url/$inner"
-        done >links.txt
-        cat links.txt
-        echo "preview_body=$(cat links.txt)" >> $GITHUB_ENV
+          echo "- $preview_url$inner" >> $GITHUB_ENV
+        done
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Notify preview URL into PR
       uses: actions/github-script@v7
