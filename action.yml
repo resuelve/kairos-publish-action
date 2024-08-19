@@ -40,6 +40,7 @@ runs:
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo "- $preview_url$inner"
         done >links.txt
+        cat links.txt
         echo "preview_body=$(cat links.txt)" >> $GITHUB_ENV
 
     - name: Notify preview URL into PR
