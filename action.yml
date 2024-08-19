@@ -38,7 +38,8 @@ runs:
         git config --global --add safe.directory /__w/playbook/playbook
         echo $GITHUB_REF
         echo $GITHUB_HEAD_REF
-        git diff --name-only master
+        echo $GITHUB_BASE_REF
+        git diff --name-only $GITHUB_BASE_REF
         for file in $(git diff --name-only master | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
           echo $inner
