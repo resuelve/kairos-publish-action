@@ -41,10 +41,9 @@ runs:
         echo $GITHUB_BASE_REF
         git fetch origin
         git diff --name-only origin/$GITHUB_BASE_REF
-        for file in $(git diff --name-only $GITHUB_BASE_REF | grep ".md" | sed s/.md$//); do
+        for file in $(git diff --name-only origin/$GITHUB_BASE_REF | grep ".md" | sed s/.md$//); do
           inner=$(echo "$file" | sed s/^content// | sed s/.md$//)
-          echo $inner
-          echo "- $preview_url$inner"
+          echo "- $preview_url/$inner"
         done >links.txt
         cat links.txt
         echo "preview_body=$(cat links.txt)" >> $GITHUB_ENV
